@@ -5,11 +5,14 @@ import Header from "../../header/page.js"
 import Filters from '@/app/components/popupFilters'
 import PopupProduct from '@/app/components/popupProduct'
 import PopupSort from '@/app/components/PopupSort'
-import { getProduct } from '@/app/service/getProduct'
 import { useRef, useContext, useEffect, useState } from 'react'
 import { sortContext } from '@/app/context/contextProvider'
 import getProducts from '@/app/service/getProducts'
-import PriceFilter from '@/app/components/priceFilter'
+import PopupCheque from '@/app/components/PopupCheque'
+
+
+
+
 
 const HTMLLoading = (
     <div className='error__loading'>
@@ -69,26 +72,21 @@ export default function ClientPage({ ProductTypes, products, type, filtersConten
                 <span className="error__code">таких типів продуктів немає</span>
             </div>)
     }
-    function sizeSelected() {
-        try {
-            let form = new FormData(document.querySelector('#filters form'))
-            return !!form.get('size_sm')
-        } catch (e) {
-            return false
-        }
-    }
-    // filtersContent.unshift({
-    //     filterRule: 'size_sm', i_type: 'мінімальна ціна', i_name: '', ui: 'custom',
-    //     customUI: <input className="popup-from-left__option-input" defaultValue={params.searchParams['priceFrom']} placeholder='мінімальна ціна' type='number' name='priceFrom' />
-    // })
-    // if (type == 'піца') {
-    //     filtersContent.unshift({ filterRule: 'size_sm', i_type: 'розмір', i_name: '20см, 28см, 33см', ui: 'radio' })
+    // function sizeSelected() {
+    //     try {
+    //         let form = new FormData(document.querySelector('#filters form'))
+    //         return !!form.get('size_sm')
+    //     } catch (e) {
+    //         return false
+    //     }
     // }
     return <>
+        <PopupCheque />
         {ProductTypes.includes(type) ? <Filters type={type} setSize={setSize} filtersContent={filtersContent} /> : <></>}
         {ProductTypes.includes(type) && (productsState.length > 0) ? <PopupSort sortParams={sortParams} /> : <></>}
         <PopupProduct withComposition={withComposition} />
         <Header />
+
         <main className="page">
             <section className="priceList">
                 <div className="priceList__container">
